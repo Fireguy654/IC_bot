@@ -8,7 +8,7 @@ from info import TOKEN
 def main():
     updater = Updater(token=TOKEN, use_context=True)
     dp = updater.dispatcher
-    dp.add_handler(MessageHandler(Filters.text, start.start))
+    dp.add_handler(CommandHandler("start", start.start))
     updater.start_polling()
     updater.idle()
 
