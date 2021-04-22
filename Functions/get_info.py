@@ -1,17 +1,29 @@
 import json
 import os
+from Functions.manipulate_mode_info import get_mode_info
+from Functions.send_text import send_message
 
 
 def get_info(update, context):
-    path = os.path.abspath(os.curdir)
-    try:
-        with open(path + '\\Data\\text.json', mode='r', encoding='utf-8') as file:
-            words = json.load(file)
-    except Exception:
-        words = {}
     text = update.message.text
     if text[0] == '/':
         return
+    chat_id = str(update.message.chat_id)
+    info = get_mode_info()
+    if chat_id not in info['study']:
+        info['study'][chat_id] = False
+    if chat_id not in info['answer']:
+        info['answer'][chat_id] = True
+    path = os.path.abspath(os.curdir)
+    try:
+        if info['study'][chat_id]:
+            with open(path + '\\Data\\text' + chat_id + '.json', mode='r', encoding='utf-8') as file:
+                words = json.load(file)
+        else:
+            with open(path + '\\Data\\text.json', mode='r', encoding='utf-8') as file:
+                words = json.load(file)
+    except Exception:
+        words = {}
     text.replace(';', '.')
     last_t = '%'
     cur_t = ''
@@ -75,5 +87,11 @@ def get_info(update, context):
     except ValueError as e:
         print(e)
     path = os.path.abspath(os.curdir)
-    with open(path + '\\Data\\text.json', mode='w', encoding='utf-8') as file:
-        json.dump(words, file, ensure_ascii=False)
+    if info['study'][chat_id]:
+        with open(path + '\\Data\\text' + chat_id + '.json', mode='w', encoding='utf-8') as file:
+            json.dump(words, file, ensure_ascii=False)
+    else:
+        with open(path + '\\Data\\text.json', mode='w', encoding='utf-8') as file:
+            json.dump(words, file, ensure_ascii=False)
+    if info['answer'][chat_id]:
+        send_message(update, context)

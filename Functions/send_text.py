@@ -1,20 +1,29 @@
 import json
 import os
 import random
+from Functions.manipulate_mode_info import get_mode_info
 
 
 def send_message(update, context):
     path = os.path.abspath(os.curdir)
+    info = get_mode_info()
+    chat_id = str(update.message.chat_id)
+    if chat_id not in info['study']:
+        info['study'][chat_id] = False
     try:
-        with open(path + '\\Data\\text.json', mode='r', encoding='utf-8') as file:
-            text = json.load(file)
+        if info['study'][chat_id]:
+            with open(path + '\\Data\\text' + chat_id + '.json', mode='r', encoding='utf-8') as file:
+                text = json.load(file)
+        else:
+            with open(path + '\\Data\\text.json', mode='r', encoding='utf-8') as file:
+                text = json.load(file)
     except Exception:
         update.message.reply_text("Извините. Я пока ещё слишком мало знаю и не умею разговаривать :("
-                                  "Поучусь ещё немного и будем беседовать")
+                                  " Поучусь ещё немного и будем беседовать")
         return
     if len(text) < 100:
         update.message.reply_text("Извините. Я пока ещё слишком мало знаю и не умею разговаривать :("
-                                  "Поучусь ещё немного и будем беседовать")
+                                  " Поучусь ещё немного и будем беседовать")
         return
     sent = random.randint(1, 10)
     ans = []
