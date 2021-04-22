@@ -1,5 +1,5 @@
 from telegram.ext import Updater, MessageHandler, Filters
-from telegram.ext import CallbackContext, CommandHandler, ConversationHandler
+from telegram.ext import CommandHandler, ConversationHandler
 
 from Functions import start, meme_generator
 from info import TOKEN
@@ -15,7 +15,7 @@ def main():
             1: [MessageHandler(Filters.all, meme_generator.get_meme_text)],
             2: [MessageHandler(Filters.all, meme_generator.get_meme_photo)]
         },
-        fallbacks=[CommandHandler('stop', meme_generator.stop_meme)])
+        fallbacks=[CommandHandler('stop', meme_generator.stop)])
     dp.add_handler(meme_handler)
 
     updater.start_polling()

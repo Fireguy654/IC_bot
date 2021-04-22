@@ -1,7 +1,8 @@
 import os
 
 from PIL import Image, ImageFont, ImageDraw
-from telegram.ext import ConversationHandler
+
+MIN_SIZE = 200, 200
 
 
 def create_meme_processing(update, context):
@@ -16,6 +17,8 @@ def create_meme_processing(update, context):
 
 def get_meme_text(update, context):
     if update.message.text:
+        if update.message.text == "/stop":
+            return stop(update, context)
         context.user_data["text"] = update.message.text.strip()
         update.message.reply_text(
             "Пожалуйста, отправьте картинку для создания мема." + "\n" +
@@ -28,8 +31,14 @@ def get_meme_text(update, context):
 
 
 def get_meme_photo(update, context):
+    if update.message.text == "/stop":
+        return stop(update, context)
     if update.message.photo:
-        filename = update.message.photo[0].get_file().download()
+        photo = update.message.photo[0]
+        filename = photo.get_file().download()
+        width, height = photo.width, photo.height
+        if width <= MIN_SIZE[0] or height <= MIN_SIZE[1]:
+            return wrong_res_photo(update, context)
         img = Image.open(filename)
         font = ImageFont.truetype("Data/calibri.ttf", 20)
         draw = ImageDraw.Draw(img)
@@ -39,13 +48,21 @@ def get_meme_photo(update, context):
         with open(filename, "rb") as f:
             update.message.reply_photo(f)
         os.remove(filename)
-        return ConversationHandler.END
+        return -1
     update.message.reply_text(
         "Пожалуйста, отправьте картинку для создания мема." + "\n" +
         'Если вы передумали его создавать, введите "/stop".')
     return 2
 
 
-def stop_meme(update, context):
+def stop(update, context):
     update.message.reply_text("Спасибо, что попытались.")
-    return ConversationHandler.END
+    return -1
+
+
+def wrong_res_photo(update, context):
+    update.message.reply_text("Разрешение изображения меньше, чем 200x200." + "\n" +
+                              "Пожалуйста, отправьте новую картинку. \UF09F9189" + "\n" +
+                              'Если вы передумали создавать мем, введите "/stop".')
+    return 2
+
