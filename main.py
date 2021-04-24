@@ -9,6 +9,7 @@ def main():
     updater = Updater(token=TOKEN, use_context=True)
     dp = updater.dispatcher
 
+    dp.add_handler(CommandHandler("start", start.start))
     meme_handler = ConversationHandler(
         entry_points=[CommandHandler('create_meme', meme_generator.create_meme_processing)],
         states={
