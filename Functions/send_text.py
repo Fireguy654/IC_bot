@@ -4,6 +4,13 @@ import random
 from Functions.manipulate_mode_info import get_mode_info
 
 
+# send_message - функция, принимающая на вход событие и окружение.
+# Вызывается по команде /something.
+# Также может вызываться из get_info, если режим ответа равен True.
+# Берёт информацию о связях слов из
+# Data/text.json(Data/text<chat_id>.json если режим обучения равен True).
+# Генерирует фразу: на каждом слове берёт рандомное из топ-10 используемых по связям слов.
+# И отправляет фразу в диалог.
 def send_message(update, context):
     path = os.path.abspath(os.curdir)
     info = get_mode_info()
