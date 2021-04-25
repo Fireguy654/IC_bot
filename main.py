@@ -6,6 +6,9 @@ from Functions import meme_generator, gif_send
 from info import TOKEN
 
 
+# main - функция, вызываемая при запуске программы.
+# Связывает сигналы полученные от бота с их обработчиками, подключая их из директории Functions.
+# Запускает бесконечный цикл обработки сигналов.
 def main():
     updater = Updater(token=TOKEN, use_context=True)
     dp = updater.dispatcher
