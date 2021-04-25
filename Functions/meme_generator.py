@@ -2,7 +2,7 @@ import os
 
 from PIL import Image, ImageFont, ImageDraw
 import speech_recognition as sr
-import ffmpy
+import ffmpy  # Используется для проеобразования аудиофайлов.
 
 
 FONT_SIZE_TO_WEIGHT = 1.618
