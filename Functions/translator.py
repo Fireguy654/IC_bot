@@ -29,17 +29,17 @@ def get_phrase(update, context):
             ", ".join(langs_list) + ".\n" + MSG_ABOUT_STOP)
     else:
         update.message.reply_text("Пожалуйста, введите фразу, которую вы хотите перевести.\n" + MSG_ABOUT_STOP)
-        return -1
+        return 1
     return 2
 
 
 def select_language(update, context):
     if update.message.text == "/stop":
         return stop(update, context)
-    if update.message.text not in langs_list:
+    if update.message.text.lower() not in langs_list:
         update.message.reply_text("Выбран некорректный язык, пожалуйста, попробуйте еще раз.\n" + MSG_ABOUT_STOP)
         return 2
-    dist_lang = update.message.text
+    dist_lang = update.message.text.lower()
     # Идентификация языка введённой фразы.
     src_lang = language_translator.identify(context.user_data["text"]).get_result()["languages"][0]["language"]
 
