@@ -4,14 +4,14 @@ from telegram.ext import CommandHandler, ConversationHandler
 from Functions import start, get_info, send_text, AI_mods, help
 from Functions import meme_generator, gif_send, get_image, get_music
 from Functions import translator
-from info import TOKEN
+from info import TG_TOKEN
 
 
 # main - функция, вызываемая при запуске программы.
 # Связывает сигналы полученные от бота с их обработчиками, подключая их из директории Functions.
 # Запускает бесконечный цикл обработки сигналов.
 def main():
-    updater = Updater(token=TOKEN, use_context=True)
+    updater = Updater(token=TG_TOKEN, use_context=True)
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("start", start.start))

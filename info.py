@@ -1,5 +1,5 @@
 # Заполните следующие константы.
-TOKEN = ""
+TG_TOKEN = ""
 PIXABAY_KEY = ""
 IBM_URL = ""
 IBM_KEY = ""
