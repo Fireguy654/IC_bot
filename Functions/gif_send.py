@@ -2,6 +2,7 @@ import random
 
 import requests
 import telegram
+from info import TENOR_KEY
 
 
 # send_gif - функция, принимающая на вход событие и окружение бота.
@@ -14,7 +15,7 @@ def send_gif(update, content):
     query = ' '.join(content.args)
     url = 'https://g.tenor.com/v1/search'
     kwargs = {
-        'key': '5XPDWKBEN68J',
+        'key': TENOR_KEY,
         'q': query
     }
     res = requests.get(url, params=kwargs).json()
