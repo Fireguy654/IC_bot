@@ -30,8 +30,7 @@ def get_meme_text(update, context):
             MSG_TO_SEND_PHOTO + "\n" +
             MSG_ABOUT_STOP)
         return 2
-    # Распознавание и преобразование голосовухи в текст.
-    if update.message.voice:
+    if update.message.voice:  # Распознавание и преобразование голосовухи в текст.
         filename = update.message.voice.get_file().download()
         ffmpy.FFmpeg(executable="Data\\ffmpeg\\ffmpeg.exe",
                      inputs={filename: None},

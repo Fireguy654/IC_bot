@@ -2,7 +2,7 @@ from telegram.ext import Updater, MessageHandler, Filters
 from telegram.ext import CommandHandler, ConversationHandler
 
 from Functions import start, get_info, send_text, AI_mods, help
-from Functions import meme_generator, gif_send
+from Functions import meme_generator, gif_send, get_image, get_music
 from info import TOKEN
 
 
@@ -18,6 +18,10 @@ def main():
 
     dp.add_handler(CommandHandler("gif", gif_send.send_gif))
     dp.add_handler(CommandHandler("gifn", gif_send.send_some_gifs))
+
+    dp.add_handler(CommandHandler("get_music", get_music.get_music))
+    dp.add_handler(CommandHandler("get_image", get_image.get_image))
+    dp.add_handler(CommandHandler("getn_images", get_image.get_few_images))
 
     dp.add_handler(CommandHandler("something", send_text.send_message))
     dp.add_handler(CommandHandler("ch_study_mode", AI_mods.ch_study_mode))
