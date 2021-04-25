@@ -32,7 +32,7 @@ def main():
         entry_points=[CommandHandler("translate", translator.translator_start)],
         states={1: [MessageHandler(Filters.all, translator.get_phrase)],
                 2: [MessageHandler(Filters.all, translator.select_language)]},
-        fallbacks=[CommandHandler("stop", meme_generator.stop)])
+        fallbacks=[CommandHandler("stop", translator.stop)])
     dp.add_handler(translate_handler)
 
     meme_handler = ConversationHandler(

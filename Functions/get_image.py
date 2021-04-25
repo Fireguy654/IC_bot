@@ -10,9 +10,6 @@ api_key = info.PIXABAY_KEY
 
 
 def get_image(update, context):
-    if not context.args:
-        update.message.reply_text("Вы не ввели текст, по которому хотите найти картинку.")
-        return
     params = {"key": api_key, "q": " ".join(context.args)}
 
     image_response = requests.get(URL, params=params)
@@ -51,7 +48,7 @@ def get_few_images(update, context):
         update.message.reply_text(f"Нашлось лишь {images_found} фотографий, вот они:")
         chosen_images_nums = range(images_found)
     else:
-        chosen_images_nums = sample(range(images_found), images_num)
+        chosen_images_nums = sample(range(images_found), min(images_num, images_found))
 
     for num_in_row, image_num in enumerate(chosen_images_nums):
         image_url = response_json["hits"][image_num]['webformatURL']  # Получение url картинки.

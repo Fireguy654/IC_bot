@@ -10,7 +10,7 @@ def get_music(update, context):
         need_tracks = int(context.args[0])
         music_name = " ".join(context.args[1:])
 
-        if need_tracks < 1:
+        if need_tracks < 1 or not music_name:
             raise ValueError
     except (ValueError, IndexError):
         update.message.reply_text("Некорректно указаны данные для нахождения трека.")
