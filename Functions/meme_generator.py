@@ -74,10 +74,11 @@ def get_meme_photo(update, context):
             if font_size <= 5 or \
                     (font_size // FONT_SIZE_TO_WEIGHT) * len(context.user_data["text"]) > img.width * 0.9:
                 context.user_data["error"] = "res"
+                os.remove(filename)
                 return send_error(update, context)  # Обработка случая, когда размер шрифта мал или текст не влезает.
-            text_dist = img.width // 2 - \
-                int(font_size * len(context.user_data["text"]) // (FONT_SIZE_TO_WEIGHT * 2)),\
-                int(img.height * 0.98) - font_size
+            text_dist = (img.width // 2 -
+                         int(font_size * len(context.user_data["text"]) // (FONT_SIZE_TO_WEIGHT * 2)),
+                         int(img.height * 0.98) - font_size)  # Определение места текста.
         except ValueError:
             return send_error(update, context)
         font = ImageFont.truetype("Data/Uni_Sans.ttf", font_size)
