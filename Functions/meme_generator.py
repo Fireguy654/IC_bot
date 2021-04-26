@@ -74,12 +74,14 @@ def get_meme_photo(update, context):
             if font_size <= 5 or \
                     (font_size // FONT_SIZE_TO_WEIGHT) * len(context.user_data["text"]) > img.width * 0.9:
                 context.user_data["error"] = "res"
+                img.close()
                 os.remove(filename)
                 return send_error(update, context)  # Обработка случая, когда размер шрифта мал или текст не влезает.
             text_dist = (img.width // 2 -
                          int(font_size * len(context.user_data["text"]) // (FONT_SIZE_TO_WEIGHT * 2)),
                          int(img.height * 0.98) - font_size)  # Определение места текста.
         except ValueError:
+            os.remove(filename)
             return send_error(update, context)
         font = ImageFont.truetype("Data/Uni_Sans.ttf", font_size)
         draw = ImageDraw.Draw(img)
@@ -105,7 +107,7 @@ def stop(update, context):
 def send_error(update, context):
     if context.user_data.get("error") == "res":
         update.message.reply_text("Извините, это изображение не подходит для создания мема," +
-                                  " попробуйте другое.")
+                                  " попробуйте другое.\n" + MSG_ABOUT_STOP)
         return 2
     update.message.reply_text("Извините, произошла ошибка.")
     return -1
